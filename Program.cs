@@ -19,7 +19,7 @@ namespace AcquireTokenSilentExample
         static StaticClientWithProxyFactory()
         {
             handler = new HttpClientHandler();
-            handler.SslProtocols = SslProtocols.Tls13;
+            handler.SslProtocols = SslProtocols.Tls12;
             s_httpClient = new HttpClient(handler);
         }
 
