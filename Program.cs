@@ -40,13 +40,21 @@ namespace AcquireTokenSilentExample
             // If no args are provided
             if (args.Length < 3)
             {
-                Console.WriteLine("[*] Not enough args");
+                Console.WriteLine("[!] Not enough args");
+                Console.WriteLine("[*] SharpGetEntraToken.exe <client_id> <tenant_id> <resource/scopes> [redirect_uri]");
                 return;
             }
 
             string clientId = args[0];
             string tenantId = args[1];
             string[] scopes = new string[] { args[2] };
+            string redirectUri = "";
+
+            if (args.Length == 4)
+            {
+                redirectUri = args[3];
+                Console.WriteLine("Using redirect uri: " + redirectUri);
+            }
 
             // Authority URL for Microsoft identity platform (Entra ID)
             string authority = $"https://login.microsoftonline.com/{tenantId}";
@@ -56,8 +64,9 @@ namespace AcquireTokenSilentExample
                 .WithAuthority(authority)
                 .WithHttpClientFactory(httpClientFactory)
                 .WithBroker(new BrokerOptions(BrokerOptions.OperatingSystems.Windows))
+                .WithRedirectUri(redirectUri)
                 .Build();
-
+	
             if (app == null)
             {
                 Console.WriteLine("[*] Failed to initialize app");
